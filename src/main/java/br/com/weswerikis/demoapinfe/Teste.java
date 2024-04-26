@@ -14,7 +14,6 @@ import br.com.swconsultoria.nfe.util.XmlNfeUtil;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -51,6 +50,7 @@ public class Teste {
         criaConfiguracoes();
 
         MontaChaveNFe(configuracoesNfe);
+
         TEnviNFe enviNFe = criaEnviNFe();
         enviNFe = Nfe.montaNfe(configuracoesNfe, enviNFe, true);
     }
@@ -70,6 +70,9 @@ public class Teste {
 
     private static TEnviNFe criaEnviNFe() {
         TEnviNFe enviNFe = new TEnviNFe();
+        enviNFe.setVersao(ConstantesUtil.VERSAO.NFE);
+        enviNFe.setIdLote("1");
+        enviNFe.setIndSinc("1");
         TNFe nfe = new TNFe();
         TNFe.InfNFe infNFe = getInfNFe();
         nfe.setInfNFe(infNFe);
@@ -98,27 +101,26 @@ public class Teste {
     private static TNFe.InfNFe.Total montaTotal() {
         TNFe.InfNFe.Total total = new TNFe.InfNFe.Total();
         TNFe.InfNFe.Total.ICMSTot icmsTot = new TNFe.InfNFe.Total.ICMSTot();
-        icmsTot.setVBC();
-        icmsTot.setVICMS();
-        icmsTot.setVICMSDeson();
-        icmsTot.setVFCP();
-        icmsTot.setVBCST();
-        icmsTot.setVST();
-        icmsTot.setVFCPSTRet();
-        icmsTot.setVProd();
-        icmsTot.setVFrete();
-        icmsTot.setVSeg();
-        icmsTot.setVDesc();
-        icmsTot.setVII();
-        icmsTot.setVIPI();
-        icmsTot.setVIPIDevol();
-        icmsTot.setVPIS();
-        icmsTot.setVCOFINS();
-        icmsTot.setVOutro();
-        icmsTot.setVNF();
+        icmsTot.setVBC("10.00");
+        icmsTot.setVICMS("1.00");
+        icmsTot.setVICMSDeson("0.00");
+        icmsTot.setVFCP("0.00");
+        icmsTot.setVBCST("0.00");
+        icmsTot.setVST("0.00");
+        icmsTot.setVFCPST("0.00");
+        icmsTot.setVFCPSTRet("0.00");
+        icmsTot.setVProd("10.00");
+        icmsTot.setVFrete("0.00");
+        icmsTot.setVSeg("0.00");
+        icmsTot.setVDesc("0.00");
+        icmsTot.setVII("0.00");
+        icmsTot.setVIPI("0.00");
+        icmsTot.setVIPIDevol("0.00");
+        icmsTot.setVPIS("0.17");
+        icmsTot.setVCOFINS("0.76");
+        icmsTot.setVOutro("0.00");
+        icmsTot.setVNF("10.00");
         total.setICMSTot(icmsTot);
-
-
         return total;
     }
 
@@ -186,14 +188,16 @@ public class Teste {
     }
 
     private static void criaImpostoIcms(TNFe.InfNFe.Det.Imposto imposto) {
-        TNFe.InfNFe.Det.Imposto.ICMS icsm = new TNFe.InfNFe.Det.Imposto.ICMS();
-        TNFe.InfNFe.Det.Imposto.ICMS.ICMS60 icms60 = new TNFe.InfNFe.Det.Imposto.ICMS.ICMS60();
-        icms60.setOrig("0");
-        icms60.setCST("60");
-        icms60.setVBCSTRet("0.00");
-        icms60.setPST("0.00");
-        icsm.setICMS60(icms60);
-        imposto.getContent().add(new ObjectFactory().createTNFeInfNFeDetImpostoICMS(icsm));
+        TNFe.InfNFe.Det.Imposto.ICMS icms = new TNFe.InfNFe.Det.Imposto.ICMS();
+        TNFe.InfNFe.Det.Imposto.ICMS.ICMS00 icms00 = new TNFe.InfNFe.Det.Imposto.ICMS.ICMS00();
+        icms00.setOrig("0");
+        icms00.setModBC("0");
+        icms00.setCST("00");
+        icms00.setVBC("10.00");
+        icms00.setPICMS("10");
+        icms00.setVICMS("1.00");
+        icms.setICMS00(icms00);
+        imposto.getContent().add(new ObjectFactory().createTNFeInfNFeDetImpostoICMS(icms));
     }
 
     private static TNFe.InfNFe.Det.Prod montaProduto() {
